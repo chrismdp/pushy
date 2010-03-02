@@ -14,10 +14,9 @@ def Main():
 
 def OnRobotAdded(event, wavelet):
 	"""Invoked when the robot has been added."""
-	logging.debug("Called OnRobotAdded event handler. Wavelet: "+wavelet)
 	# post welcome message
-	wavelet.reply("Hello!")
-	#wavelet.reply("Hi, I'm Pushy. In order to get notifications appearing in this wave, post content to:\n\nhttp://chrismdp-pushy.appspot.com/push/"+wavelet.wavelet_id()+"\n\nOnce you post data to this url, it'll show up on this wave. Pushy should understand github payloads just fine in the future.\n\nYou can safely delete this message: it's just for information.")
+	#wavelet.reply("Hello!")
+	wavelet.reply("Hi, I'm Pushy. In order to get notifications appearing in this wave, post content to:\n\nhttp://chrismdp-pushy.appspot.com/push/"+wavelet.wave_id+"\n\nOnce you post data to this url, it'll show up on this wave. Pushy should understand github payloads just fine in the future.\n\nYou can safely delete this message: it's just for information.")
 
 
 
