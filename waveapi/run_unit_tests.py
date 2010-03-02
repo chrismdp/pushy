@@ -1,4 +1,4 @@
-#!/usr/bin/python2.4
+#!/usr/bin/python
 #
 # Copyright (C) 2009 Google Inc.
 #
@@ -17,23 +17,25 @@
 """Script to run all unit tests in this package."""
 
 
-import document_test
-import model_test
+import blip_test
+import element_test
 import module_test_runner
 import ops_test
-import robot_abstract_test
+import robot_test
 import util_test
+import wavelet_test
 
 
 def RunUnitTests():
   """Runs all registered unit tests."""
   test_runner = module_test_runner.ModuleTestRunner()
   test_runner.modules = [
-      document_test,
-      model_test,
+      blip_test,
+      element_test,
       ops_test,
-      robot_abstract_test,
+      robot_test,
       util_test,
+      wavelet_test,
   ]
   test_runner.RunAllTests()
 

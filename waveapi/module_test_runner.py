@@ -1,4 +1,4 @@
-#!/usr/bin/python2.4
+#!/usr/bin/python
 #
 # Copyright (C) 2009 Google Inc.
 #
@@ -15,9 +15,6 @@
 # limitations under the License.
 
 """Module defines the ModuleTestRunnerClass."""
-
-
-__author__ = 'davidbyttow@google.com (David Byttow)'
 
 
 import unittest
