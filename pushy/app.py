@@ -1,36 +1,24 @@
 from waveapi import events
-from waveapi import model
 from waveapi import robot
+from waveapi import appengine_robot_runner
 
 import logging
 
 def Main():
 	logging.getLogger().setLevel(logging.DEBUG)
-	logging.debug("Creating robot")
 	myRobot = robot.Robot('Pushy', 
 		image_url='http://chrismdp-pushy.appspot.com/assets/icon.png',
-		version='0.1.2',
 		profile_url='http://chrismdp-pushy.appspot.com/')
-	logging.debug("Registering events")
-	myRobot.RegisterHandler(events.WAVELET_PARTICIPANTS_CHANGED, OnParticipantsChanged)
-	myRobot.RegisterHandler(events.WAVELET_SELF_ADDED, OnRobotAdded)
-	logging.debug("Running robot")
-	myRobot.Run()
+	myRobot.register_handler(events.WaveletSelfAdded, OnRobotAdded)
+	appengine_robot_runner.run(myRobot)
 
-def OnParticipantsChanged(properties, context):
-	"""Invoked when participants are added or removed"""
-	added = properties['participantsAdded']
-	for p in added:
-		Notify(context)
-
-def OnRobotAdded(properties, context):
+def OnRobotAdded(event, wavelet):
 	"""Invoked when the robot has been added."""
-	root_wavelet = context.GetRootWavelet()
-	root_wavelet.CreateBlip().GetDocument().SetText("Hello! I'm alive!")
+	logging.debug("Called OnRobotAdded event handler. Wavelet: "+wavelet)
+	# post welcome message
+	wavelet.reply("Hello!")
+	#wavelet.reply("Hi, I'm Pushy. In order to get notifications appearing in this wave, post content to:\n\nhttp://chrismdp-pushy.appspot.com/push/"+wavelet.wavelet_id()+"\n\nOnce you post data to this url, it'll show up on this wave. Pushy should understand github payloads just fine in the future.\n\nYou can safely delete this message: it's just for information.")
 
-def Notify(context):
-	root_wavelet = context.GetRootWavelet()
-	root_wavelet.CreateBlip().GetDocument().SetText("Hi Everybody")
 
 
 
