@@ -12,6 +12,9 @@ class TestReceivePush(unittest.TestCase):
 	def setUp(self):
 		self._application = webapp.WSGIApplication([('/push.*', receive.PushHandler)], debug=True)
 		self._app = TestApp(self._application)
+		# Mock out wave specific methods
+		receive.PushHandler._initialize_robot = lambda self : 0
+		receive.PushHandler._reply_to_wave = lambda self, w, wv : 0
 
 	def assertContains(self, itemToLookFor, itemToSearch):
 		def escapeHtml(string):
@@ -22,11 +25,11 @@ class TestReceivePush(unittest.TestCase):
 		self.assertTrue(itemToLookFor in itemToSearch, "%s did not contain %s" % (escapedItemToSearch, escapedItemToLookFor))
 
 	def testPostsToWaveOnPush(self):
-		response = self._app.get('/push/wavesandbox.com!F+33934934')
+		response = self._app.post('/push/wavesandbox.com!F+33934934')
 		self.assertContains('OK', response)
 	
 	def testMalformedRequestShouldFail(self):
-		response = self._app.get('/push')
+		response = self._app.post('/push')
 		self.assertContains("Malformed URL", response)
 
 class TestReceive(unittest.TestCase):
