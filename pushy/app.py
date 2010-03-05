@@ -1,14 +1,10 @@
 from waveapi import events
-from waveapi import robot
 from waveapi import appengine_robot_runner
 
 import logging
 import urllib
 
 from pushy import receive
-
-CONSUMER_KEY = "128449655778"
-CONSUMER_SECRET = "Cy0i+17WTMdj2kxsXXBvnTvq"
 
 def Main():
 	logging.getLogger().setLevel(logging.DEBUG)
