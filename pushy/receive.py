@@ -57,8 +57,8 @@ def _add_github_message(wavelet, myJson):
 			_blip.append(modified + "\n")
 			_blip.first(modified).annotate("style/fontStyle", "italic")
 		_blip.append("\n"+commit['id'])
-		_blip.first(commit['id']).annotate("link/manual", commit['url'])
 		_blip.append("\n"+payload['repository']['url'])
+		_blip.first(commit['id']).annotate("link/manual", commit['url'])
 
 def _generate_message(body):
 	data = body.split("=")
