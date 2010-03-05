@@ -25,7 +25,7 @@ class TestReceivePush(unittest.TestCase):
 		self.assertTrue(itemToLookFor in itemToSearch, "%s did not contain %s" % (escapedItemToSearch, escapedItemToLookFor))
 
 	def testPostsToWaveOnPush(self):
-		response = self._app.post('/push/wavesandbox.com!F+33934934')
+		response = self._app.post('/push/wavesandbox.com/33934934')
 		self.assertContains('OK', response)
 	
 	def testMalformedRequestShouldFail(self):
@@ -33,8 +33,12 @@ class TestReceivePush(unittest.TestCase):
 		self.assertContains("Malformed URL", response)
 
 class TestReceive(unittest.TestCase):
+	def testMangleWaveId(self):
+		url = receive._mangle_wave_id("wavesandbox.com!w+27uuNu-2A")
+		self.assertEquals("wavesandbox.com/27uuNu-2A", url)
+
 	def testExtractWaveId(self):
-		id = receive._extract_wave_id("/push/wavesandbox.com%21w%2B27uuNu-2A")
+		id = receive._extract_wave_id("/push/wavesandbox.com/27uuNu-2A")
 		self.assertEquals("wavesandbox.com!w+27uuNu-2A", id)
 
 	def testExtractWaveIdReturnsEmptyOnMalformedLink(self):
