@@ -10,15 +10,13 @@ import time
 import hashlib,urllib
 from waveapi import simplejson as json
 
-CONSUMER_KEY = "128449655778"
-CONSUMER_SECRET = "Cy0i+17WTMdj2kxsXXBvnTvq"
+OAUTH = { 'key': "610714189216", 'secret': "Eu3Dh0CAqzlQ1Kj4O59yuHA0" }
 
 def _create_robot():
 	logging.debug("Creating Robot")
-	_robot = robot.Robot('Pushy (test)', 
-		image_url='http://chrismdp-test.appspot.com/assets/icon.png',
-		profile_url='http://chrismdp-test.appspot.com/')
-	_robot.setup_oauth(CONSUMER_KEY, CONSUMER_SECRET, server_rpc_base='http://sandbox.gmodules.com/api/rpc')	
+	_robot = robot.Robot('Pushy', 
+		image_url='http://pushyrobot.appspot.com/assets/icon.png',
+		profile_url='http://pushyrobot.appspot.com/')
 	return _robot
 
 def _mangle_wave_id(wave_id):
@@ -30,8 +28,11 @@ def _extract_wave_id(url):
 		return ""
 	return "%s!w+%s" % (_split[2], _split[3])
 
+def _discover_server(wave_id):
+	return wave_id.split("!")[0]
+
 def _generate_wavelet_id_from_wave_id(wave_id):
-	return "%s!conv+root" % wave_id.split('!')[0]
+	return _discover_server(wave_id) + "!conv+root"
 
 def _gravatar_url_from(email):
 	gravatar_url = "http://www.gravatar.com/avatar/"+hashlib.md5(email).hexdigest() + "?s=40"
@@ -86,6 +87,10 @@ class PushHandler(webapp.RequestHandler):
 	
 	def _reply_to_wave(self, wave_id, wavelet_id, message):
 		logging.debug("Fetching wavelet: "+wave_id+", "+wavelet_id)
+		RPC = {'wavesandbox.com': 'http://sandbox.gmodules.com/api/rpc',
+				   'googlewave.com': 'http://gmodules.com/api/rpc'}
+		self._robot.setup_oauth(OAUTH['key'], OAUTH['secret'], 
+			server_rpc_base = RPC[_discover_server(wave_id)])	
 		wavelet = self._robot.fetch_wavelet(wave_id, wavelet_id)
 		if (types.FunctionType == type(message)):
 			message(wavelet)
