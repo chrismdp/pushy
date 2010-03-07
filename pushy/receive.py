@@ -42,20 +42,37 @@ def _convert_time(tstr):
 	ts = time.strptime(tstr, "%Y-%m-%dT%H:%M:%S-08:00")
 	t = time.mktime(ts)
 	t += 8 * 60 * 60
+	return _format_for_commit(t)
+
+def _format_for_commit(t):
 	return time.strftime("%a, %d %b %Y %H:%M", time.gmtime(t))
 
 def _add_github_message(wavelet, myJson):
 	payload = json.loads(urllib.unquote(myJson))
 	for commit in payload['commits']:
-		_blip = wavelet.reply()
-		title = "[Github: "+payload['repository']['url']+"] "
-		_blip.append(title+"\n\n")
-		_blip.append(element.Gadget("http://pushyrobot.appspot.com/gadgets/github.xml", 
-			{'commit': urllib.quote(json.dumps(commit)),
-			 'timestamp': _convert_time(commit['timestamp']),
-			 'gravatar': _gravatar_url_from(commit['author']['email'])}))
+		reply = wavelet.reply()
+		reply.append("[github: "+payload['repository']['url']+"]\n\n")
+		commit['timestamp'] = _convert_time(commit['timestamp'])
+		commit['image'] = _gravatar_url_from(commit['author']['email'])
+		commit['author'] = commit['author']['name']
+		reply.append(element.Gadget("http://pushyrobot.appspot.com/gadgets/github.xml", 
+			{'commit': urllib.quote(json.dumps(commit))}))
 
+def _add_googlecode_message(wavelet, myJson):
+	payload = json.loads(myJson)
+	for commit in payload['revisions']:
+		reply = wavelet.reply()
+		reply.append("[googlecode: "+payload['repository_path']+"]\n\n")
+		commit['timestamp'] = _format_for_commit(commit['timestamp'])
+		commit['id'] = str(commit['revision'])
+		reply.append(element.Gadget("http://pushyrobot.appspot.com/gadgets/github.xml", 
+			{'commit': urllib.quote(json.dumps(commit))}))
+		
 def _generate_message(body):
+	if (body.startswith('{"repository_path":"')):
+		def _hook(wavelet):
+			_add_googlecode_message(wavelet, body)
+		return _hook
 	data = body.split("=")
 	if (len(data) < 2):
 		return body
@@ -63,7 +80,7 @@ def _generate_message(body):
 		def _hook(wavelet):
 			_add_github_message(wavelet, data[1])
 		return _hook
-	return data[1]
+	return body
 
 class PushHandler(webapp.RequestHandler):
 	def __init__(self):

@@ -63,7 +63,7 @@ class TestGenerateMessage(unittest.TestCase):
 		self.assertEquals("foo", receive._generate_message("foo"))
 
 	def testReturnsNormalMessages(self):
-		self.assertEquals("foo", receive._generate_message("data=foo"))
+		self.assertEquals("data=foo", receive._generate_message("data=foo"))
 
 	def testReturnsGitHubFormatted(self):
 		message = receive._generate_message(GITHUB_JSON)

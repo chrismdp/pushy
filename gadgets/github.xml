@@ -58,11 +58,12 @@
     encoded = wave.getState().get("commit");
     json = JSON.parse(decodeURIComponent(encoded));
     $('div.message').text(json['message']);
-    $('div.name').text(json['author']['name']);
-    $('div.time').text(json['author']['timestamp']);
+    $('div.name').text(json['author']);
+    $('div.time').text(json['timestamp']);
     $('div.id').html($("<a target='_new'>").attr('href', json['url']).text(json['id'].substring(0, 8)));
-    $('div.image img').attr("src", wave.getState().get("gravatar"));
-    $('div.time').text(wave.getState().get("timestamp"));
+		if (json['image']) {
+			$('div.image img').attr("src", json['image']);
+		}
   }
   function init() {
     if (wave && wave.isInWaveContainer()) {
@@ -73,15 +74,15 @@
 </script>
 
 		<div class='commit'>
-			<div class='id'><a href='http://github.com/chrismdp/pushy/commit/62792545ebb4ec8651b49696655458079db9cef4'>62792545e</a></div>
+			<div class='id'></div>
 			<div class='message'></div>
 			<div class='author'>
 				<div class='image'>
-					<img src='http://github.com/images/gravatars/gravatar-30.png'/>
+					<img src='http://github.com/images/gravatars/gravatar-30.png' alt='author image'/>
 				</div>
-				<div class='name'>Chris Parsons</div>
+				<div class='name'></div>
 			</div>
-			<div class='time'>Tue, 5 Apr 2010 01:11</div>
+			<div class='time'></div>
 		</div>
     ]]>
   </Content>
