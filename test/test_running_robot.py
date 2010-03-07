@@ -51,7 +51,7 @@ class TestReceive(unittest.TestCase):
 	def testGenerateWaveletIdFromWaveId(self):
 		self.assertEquals("wavesandbox.com!conv+root", receive._generate_wavelet_id_from_wave_id("wavesandbox.com!w+27uuNu-2A"))
 	def testGravatarUrlGeneration(self):
-		self.assertEquals("http://www.gravatar.com/avatar/3f174ec378d1c94977a5ac7f4aea9df8?s=40", receive._gravatar_url_from("chris@test.com"))
+		self.assertEquals("http://www.gravatar.com/avatar/3f174ec378d1c94977a5ac7f4aea9df8?s=30", receive._gravatar_url_from("chris@test.com"))
 	def testConvertTime(self):
 		self.assertEquals("Fri, 05 Mar 2010 01:11", receive._convert_time("2010-03-04T17:11:48-08:00"))
 

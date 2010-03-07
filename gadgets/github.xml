@@ -1,0 +1,89 @@
+<Module>
+  <ModulePrefs title="Github commit display" height='115'>
+    <Require feature="wave"/> 
+  </ModulePrefs>
+  <Content type="html" preferred_height='115'>
+    <![CDATA[     
+<style>
+	div.commit
+	{
+    font-family: sans-serif;
+		font-size: 0.75em;
+		border: 1px solid #BEDCE7;
+		background: #EAF2F5;
+		padding: 10px;
+		position:relative;
+	}
+	div.id
+	{
+		position: absolute;
+		top: 0px;
+		right: 0px;
+		padding: 10px 10px 5px 10px;
+		border-left: 1px solid #BEDCE7;
+	}
+	div.message
+	{
+		margin: 0px 80px 15px 0px;
+    font-family: Monaco, sans-serif;
+    height: 30px;
+    overflow: hidden;
+    }
+  div.name
+  {
+    padding: 3px 0px;
+  }
+	div.image
+	{
+		float:left;
+		margin-right: 10px;
+		background: white;
+		border: 1px solid #d0d0d0;
+		padding: 3px;
+	}
+	div.time
+	{
+		color: #888;
+		padding-bottom: 5px;
+	}
+	a, a:visited
+	{
+		color: #4183C4;
+		text-decoration: none;
+	}
+</style>
+<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'></script>
+<script type='text/javascript'>
+  function renderInfo() {
+    encoded = wave.getState().get("commit");
+    json = JSON.parse(decodeURIComponent(encoded));
+    $('div.message').text(json['message']);
+    $('div.name').text(json['author']['name']);
+    $('div.time').text(json['author']['timestamp']);
+    $('div.id').html($("<a target='_new'>").attr('href', json['url']).text(json['id'].substring(0, 8)));
+    $('div.image img').attr("src", wave.getState().get("gravatar"));
+    $('div.time').text(wave.getState().get("timestamp"));
+  }
+  function init() {
+    if (wave && wave.isInWaveContainer()) {
+      wave.setStateCallback(renderInfo);
+    }
+  }
+  gadgets.util.registerOnLoadHandler(init);
+</script>
+
+		<div class='commit'>
+			<div class='id'><a href='http://github.com/chrismdp/pushy/commit/62792545ebb4ec8651b49696655458079db9cef4'>62792545e</a></div>
+			<div class='message'></div>
+			<div class='author'>
+				<div class='image'>
+					<img src='http://github.com/images/gravatars/gravatar-30.png'/>
+				</div>
+				<div class='name'>Chris Parsons</div>
+			</div>
+			<div class='time'>Tue, 5 Apr 2010 01:11</div>
+		</div>
+    ]]>
+  </Content>
+</Module>
+

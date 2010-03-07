@@ -8,6 +8,8 @@ handlers:
   script: chrismdp-pushy.py
 - url: /assets
   static_dir: assets
+- url: /gadgets
+  static_dir: gadgets
 - url: /test.*
   script: gaeunit.py
 - url: /push.*

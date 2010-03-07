@@ -35,7 +35,7 @@ def _generate_wavelet_id_from_wave_id(wave_id):
 	return _discover_server(wave_id) + "!conv+root"
 
 def _gravatar_url_from(email):
-	gravatar_url = "http://www.gravatar.com/avatar/"+hashlib.md5(email).hexdigest() + "?s=40"
+	gravatar_url = "http://www.gravatar.com/avatar/"+hashlib.md5(email).hexdigest() + "?s=30"
 	return gravatar_url
 
 def _convert_time(tstr):
@@ -48,18 +48,12 @@ def _add_github_message(wavelet, myJson):
 	payload = json.loads(urllib.unquote(myJson))
 	for commit in payload['commits']:
 		_blip = wavelet.reply()
-		title = "[Github] " + commit['message']
+		title = "[Github: "+payload['repository']['url']+"] "
 		_blip.append(title+"\n\n")
-		_blip.first(title).annotate("style/fontWeight", "bold")
-		_blip.append(element.Image(_gravatar_url_from(commit['author']['email'])))
-		_blip.append("\n\n" + commit['author']['name']+" on ")
-		_blip.append(_convert_time(commit['timestamp'])+"\n\n")
-		for modified in commit['modified']:
-			_blip.append(modified + "\n")
-			_blip.first(modified).annotate("style/fontStyle", "italic")
-		_blip.append("\n"+commit['id'])
-		_blip.append("\n"+payload['repository']['url'])
-		_blip.first(commit['id']).annotate("link/manual", commit['url'])
+		_blip.append(element.Gadget("http://pushyrobot.appspot.com/gadgets/github.xml", 
+			{'commit': urllib.quote(json.dumps(commit)),
+			 'timestamp': _convert_time(commit['timestamp']),
+			 'gravatar': _gravatar_url_from(commit['author']['email'])}))
 
 def _generate_message(body):
 	data = body.split("=")
@@ -99,7 +93,6 @@ class PushHandler(webapp.RequestHandler):
 		self._robot.submit(wavelet)
 
 	def _initialize_robot(self):
-		logging.debug("ROBOT INIT")
 		self._robot = _create_robot()
 
 def main():
