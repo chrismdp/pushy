@@ -16,7 +16,7 @@ def _create_robot():
 	logging.debug("Creating Robot")
 	_robot = robot.Robot('Pushy', 
 		image_url='http://pushyrobot.appspot.com/assets/icon.png',
-		profile_url='http://pushyrobot.appspot.com/')
+		profile_url='http://bit.ly/9whjgr')
 	return _robot
 
 def _mangle_wave_id(wave_id):
