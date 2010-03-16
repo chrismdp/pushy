@@ -12,13 +12,6 @@ from waveapi import simplejson as json
 
 OAUTH = { 'key': "610714189216", 'secret': "Eu3Dh0CAqzlQ1Kj4O59yuHA0" }
 
-def _create_robot():
-	logging.debug("Creating Robot")
-	_robot = robot.Robot('Pushy', 
-		image_url='http://pushyrobot.appspot.com/assets/icon.png',
-		profile_url='http://bit.ly/9whjgr')
-	return _robot
-
 def _setup_authentication(wave_id):
 	RPC = {'wavesandbox.com': 'http://sandbox.gmodules.com/api/rpc',
 				 'googlewave.com': 'http://gmodules.com/api/rpc'}

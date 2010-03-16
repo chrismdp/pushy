@@ -3,7 +3,17 @@ import os
 import time
 import hashlib,urllib
 
+from waveapi import robot
 from waveapi import simplejson as json
+
+ROBOT_URL = "http://pushyrobot.appspot.com"
+
+def _create_robot():
+	logging.debug("Creating Robot")
+	_robot = robot.Robot('Pushy', 
+		image_url= ROBOT_URL + '/assets/icon.png',
+		profile_url='http://bit.ly/9whjgr')
+	return _robot
 
 def _mangle_wave_id(wave_id):
 	return "%s/%s" % (wave_id.split("!")[0], wave_id.split("+")[1])
@@ -41,7 +51,7 @@ def _add_github_message(wavelet, myJson):
 		commit['timestamp'] = _convert_time(commit['timestamp'])
 		commit['image'] = _gravatar_url_from(commit['author']['email'])
 		commit['author'] = commit['author']['name']
-		reply.append(element.Gadget("http://pushyrobot.appspot.com/gadgets/github.xml", 
+		reply.append(element.Gadget(ROBOT_URL + "/gadgets/github.xml", 
 			{'commit': urllib.quote(json.dumps(commit))}))
 
 def _add_googlecode_message(wavelet, myJson):
@@ -51,7 +61,7 @@ def _add_googlecode_message(wavelet, myJson):
 		reply.append("[googlecode: "+payload['repository_path']+"]\n\n")
 		commit['timestamp'] = _format_for_commit(commit['timestamp'])
 		commit['id'] = str(commit['revision'])
-		reply.append(element.Gadget("http://pushyrobot.appspot.com/gadgets/github.xml", 
+		reply.append(element.Gadget(ROBOT_URL + "/gadgets/github.xml", 
 			{'commit': urllib.quote(json.dumps(commit))}))
 		
 def generate_message(body):
