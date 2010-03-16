@@ -1,0 +1,13 @@
+<extension 
+    name="Pushy the Robot"
+    thumbnailUrl="http://wave-samples-gallery.appspot.com/images?img_id=114001;img_type=thumbnail"
+    description="Pushy accepts HTTP posts and adds them as new messages on the wave. It formats github post-receive hooks and googlecode PostCommitWebHooks nicely."> 
+  <author name="Chris Parsons"/> 
+  <menuHook location="newwavemenu" text="Add Notification Wave using Pushy"
+		iconUrl="http://wave-samples-gallery.appspot.com/images?img_id=114001;img_type=thumbnail"> 
+		<createNewWave>
+			<participant id="pushyrobot@appspot.com"/>
+		</createNewWave>
+  </menuHook> 
+</extension> 
+
