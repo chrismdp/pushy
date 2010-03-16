@@ -6,7 +6,7 @@ import hashlib,urllib
 from waveapi import robot
 from waveapi import simplejson as json
 
-ROBOT_URL = "http://pushyrobot.appspot.com"
+ROBOT_URL = "http://chrismdp-test.appspot.com"
 
 def _create_robot():
 	logging.debug("Creating Robot")
