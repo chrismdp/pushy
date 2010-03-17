@@ -1,7 +1,6 @@
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 from waveapi import robot
-from waveapi import element
 
 import logging
 import types
@@ -12,8 +11,8 @@ from waveapi import simplejson as json
 
 from pushy import utils
 
-OAUTH = { 'key': "128449655778", 'secret': "Cy0i+17WTMdj2kxsXXBvnTvq" } # chrismdp-test
-#OAUTH = { 'key': "610714189216", 'secret': "Eu3Dh0CAqzlQ1Kj4O59yuHA0" } # pushyrobot
+#OAUTH = { 'key': "128449655778", 'secret': "Cy0i+17WTMdj2kxsXXBvnTvq" } # chrismdp-test
+OAUTH = { 'key': "610714189216", 'secret': "Eu3Dh0CAqzlQ1Kj4O59yuHA0" } # pushyrobot
 
 def _setup_authentication(robot, wave_id):
 	RPC = {'wavesandbox.com': 'http://sandbox.gmodules.com/api/rpc',

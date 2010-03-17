@@ -3,10 +3,11 @@ import os
 import time
 import hashlib,urllib
 
+from waveapi import element
 from waveapi import robot
 from waveapi import simplejson as json
 
-ROBOT_URL = "http://chrismdp-test.appspot.com"
+ROBOT_URL = "http://pushyrobot.appspot.com"
 
 def _create_robot():
 	logging.debug("Creating Robot")
@@ -35,9 +36,10 @@ def _gravatar_url_from(email):
 	return gravatar_url
 
 def _convert_time(tstr):
-	ts = time.strptime(tstr, "%Y-%m-%dT%H:%M:%S-08:00")
+	[date, seperator, tz] = tstr.rpartition('-')
+	ts = time.strptime(date, "%Y-%m-%dT%H:%M:%S")
 	t = time.mktime(ts)
-	t += 8 * 60 * 60
+	t += int(tz[0:2]) * 60 * 60
 	return _format_for_commit(t)
 
 def _format_for_commit(t):

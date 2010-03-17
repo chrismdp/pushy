@@ -21,8 +21,11 @@ class TestReceive(unittest.TestCase):
 		self.assertEquals("wavesandbox.com!conv+root", utils.generate_wavelet_id_from_wave_id("wavesandbox.com!w+27uuNu-2A"))
 	def testGravatarUrlGeneration(self):
 		self.assertEquals("http://www.gravatar.com/avatar/3f174ec378d1c94977a5ac7f4aea9df8?s=30", utils._gravatar_url_from("chris@test.com"))
+
 	def testConvertTime(self):
 		self.assertEquals("Fri, 05 Mar 2010 01:11", utils._convert_time("2010-03-04T17:11:48-08:00"))
+		self.assertEquals("Fri, 05 Mar 2010 01:11", utils._convert_time("2010-03-04T18:11:48-07:00"))
+		self.assertEquals("Fri, 05 Mar 2010 01:11", utils._convert_time("2010-03-05T01:11:48-00:00"))
 
 class TestGenerateMessage(unittest.TestCase):
 	def testReturnsBlankIfBodyIsBlank(self):
